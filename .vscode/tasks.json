@@ -25,7 +25,7 @@
             "type": "shell",
             "command": "${workspaceFolder}/build/cbt-tests",
             "dependsOn": [
-                "CMake: Build"
+                "Build"
             ],
             "group": {
                 "kind": "test",
