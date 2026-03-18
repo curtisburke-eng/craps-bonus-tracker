@@ -3,13 +3,28 @@ A small companion app for an in-home Craps table; Used to track bonus game numbe
 
 **Contents:**
 
-- Showcase
+- Showcase & Use
 - Prerequisites
 - Building
-- MVVM Architecture
+- MVP Architecture
 
-## Showcase
-// TODO: Update with screenshots
+## Showcase & Use
+### Main Application (on launch)
+- Launching the application brings up the Ncurses terminal UI. 
+- The user is prompted to input the current Roll total. 
+- The Last Roll Panel updates with the ASCII art of the previous roll
+- The Bonus panel highlights the number of the last roll to indicate its been "hit"
+- Rolling a 7 resets all the "hit" bonus numbers
+- Inputting 0 closes the app
+
+![alt text](documentation/image.png)
+
+### Win 'em All!
+- If all the small numbers (2-6) are rolled before a 7, the Payout panel will indicate a "Make 'em Small" win
+- - If all the tall numbers (8-12)) are rolled before a 7, the Payout panel will indicate a "Make 'em Tall" win
+- - If all the small numbers (2-12) are rolled before a 7, the Payout panel will indicate a "Make 'em All" win
+
+![alt text](documentation/image-1.png)
 
 ## Prerequisites
 - vcpkg
@@ -101,7 +116,7 @@ cd build; ninja
 
 ## Architecture
 
-This application uses Model-View-Presenter + Finite State Machine (MVP + FSM) architecture.
+This application uses Model-View-Presenter (MVP) architecture.
 
 ### Model
 
@@ -123,7 +138,3 @@ This application uses Model-View-Presenter + Finite State Machine (MVP + FSM) ar
 
 View (ncurses) ──events──> Presenter ──calls──> Model
 View (ncurses) <──update── Presenter <──data── Model
-
-### Finite State Machine
-- Each state owns its View and handles its own input
-- Each state-class acts as a mini-Presenter
