@@ -1,0 +1,18 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": { "major": 3, "minor": 28 },
+  "configurePresets": [
+    {
+      "name": "default",
+      "description": "Use central vcpkg toolchain",
+      "hidden": false,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+      }
+    }
+  ]
+}
+
