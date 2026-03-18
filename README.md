@@ -1,5 +1,5 @@
 # Craps Bonus Tracker (CBT)
-A small companion app for an in-home Craps table; Used to track bonus game numbers.
+A small companion app for an in-home Craps table; Used to track which numbers have been rolled for the "Make 'em Small", "Make 'em Tall", and "Make 'em All" bonus bets.
 
 **Contents:**
 
@@ -21,8 +21,8 @@ A small companion app for an in-home Craps table; Used to track bonus game numbe
 
 ### Win 'em All!
 - If all the small numbers (2-6) are rolled before a 7, the Payout panel will indicate a "Make 'em Small" win
-- - If all the tall numbers (8-12)) are rolled before a 7, the Payout panel will indicate a "Make 'em Tall" win
-- - If all the small numbers (2-12) are rolled before a 7, the Payout panel will indicate a "Make 'em All" win
+- If all the tall numbers (8-12) are rolled before a 7, the Payout panel will indicate a "Make 'em Tall" win
+- If all the small numbers (2-12) are rolled before a 7, the Payout panel will indicate a "Make 'em All" win
 
 ![alt text](documentation/image-1.png)
 
@@ -117,6 +117,8 @@ cd build; ninja
 ## Architecture
 
 This application uses Model-View-Presenter (MVP) architecture.
+- View (ncurses) ──events──> Presenter ──calls──> Model
+- View (ncurses) <──update── Presenter <──data── Model
 
 ### Model
 
@@ -136,5 +138,4 @@ This application uses Model-View-Presenter (MVP) architecture.
 - The GUI and user input layer.
 - Interacts with the Presenter via events.
 
-View (ncurses) ──events──> Presenter ──calls──> Model
-View (ncurses) <──update── Presenter <──data── Model
+
