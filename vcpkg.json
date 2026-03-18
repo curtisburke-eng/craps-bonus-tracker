@@ -1,0 +1,9 @@
+{
+  "name": "craps-bonus-tracker",
+  "version": "0.0.0",
+  "dependencies": [
+    "spdlog",
+    "gtest",
+    "ncurses"
+  ]
+}

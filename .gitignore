@@ -1,0 +1,7 @@
+# Directories
+.cache
+/build
+/logs
+
+# Files
+.vscode/sessions.json
