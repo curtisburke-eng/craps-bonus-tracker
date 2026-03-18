@@ -10,4 +10,9 @@ protected:
         CbtTestBase::SetUp();
     }
 
+    void TearDown()
+    {
+        m_Cbt->Reset();
+    }
+
 };
