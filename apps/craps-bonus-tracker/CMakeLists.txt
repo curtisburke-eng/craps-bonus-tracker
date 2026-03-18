@@ -5,7 +5,7 @@ add_executable(craps-bonus-tracker ${CBT_APP_SOURCES} ${CBT_APP_HEADERS})
 
 target_link_libraries(craps-bonus-tracker PRIVATE
     cbt::cbt
-    # cbt::gui
+    cbt::gui
     spdlog::spdlog
 )
 
