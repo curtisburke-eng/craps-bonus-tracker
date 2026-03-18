@@ -20,7 +20,7 @@ endif()
 find_package(spdlog REQUIRED)
 
 add_subdirectory(lib/cbt)
-# add_subdirectory(lib/cbt-gui)
+add_subdirectory(lib/cbt-gui)
 
 add_subdirectory(apps/craps-bonus-tracker)
 add_subdirectory(apps/cbt-tests)
