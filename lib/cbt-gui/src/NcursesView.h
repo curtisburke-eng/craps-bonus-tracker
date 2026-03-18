@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <map>
 #include <string>
-#include <vector>
 
 // Forward-declare the ncurses WINDOW type to avoid pulling ncurses.h into
 // every translation unit that includes this header.
@@ -26,6 +25,7 @@ public:
     //  Screen rendering
     void ShowBonusNumbers(const std::map<uint8_t, bool>& rollMap)  override;
     void ShowLastRoll(int roll)                                    override;
+    void ShowWins(bool smallWin, bool allWin, bool tallWin)        override;
 
     //  User input
     int PromptDiceRoll() override;
@@ -35,6 +35,7 @@ private:
     //  Panel drawing helpers
     void DrawBonusPanel(const std::map<uint8_t, bool>& rollMap);
     void DrawRollPanel(int roll);
+    void DrawWinsPanel(bool smallWin, bool allWin, bool tallWin);
     void DrawBigNumber(WINDOW* win, int startRow, int startCol, int num);
     void DrawBigDigit(WINDOW* win, int row, int col, int digit);
 
@@ -44,10 +45,11 @@ private:
     void        WaitForKey();
     std::string ReadLine(const std::string& prompt, int row);
 
-    //  Windows
+    //  Window panels
     WINDOW* m_BonusWin = nullptr;   // Top 1/3, full width  — bonus number grid
-    WINDOW* m_MenuWin  = nullptr;   // Bottom 2/3, left 2/3 — menu / input area
-    WINDOW* m_RollWin  = nullptr;   // Bottom 2/3, right 1/3 — last roll (big font)
+    WINDOW* m_MenuWin  = nullptr;   // Bottom section, left 2/5  — menu / input area
+    WINDOW* m_RollWin  = nullptr;   // Bottom section, middle 1/5 — last roll (big font)
+    WINDOW* m_WinsWin  = nullptr;   // Bottom section, right 2/5  — bonus pays
 
     bool m_Initialized = false;
 

@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <stdexcept>
 #include <string>
-#include <vector>
 
 
 //  Color-pair indices
@@ -84,19 +83,22 @@ void NcursesView::Init()
 
     const int bonusRows  = m_TermRows / 3;
     const int bottomRows = m_TermRows - bonusRows;
-    const int menuCols   = (m_TermCols * 2) / 3;
-    const int rollCols   = m_TermCols - menuCols;
+    const int menuCols   = (m_TermCols * 2) / 5;
+    const int rollCols   = m_TermCols / 5;
+    const int winsCols   = m_TermCols - menuCols - rollCols;
 
     m_BonusWin = newwin(bonusRows,  m_TermCols, 0,         0);
     m_MenuWin  = newwin(bottomRows, menuCols,   bonusRows, 0);
     m_RollWin  = newwin(bottomRows, rollCols,   bonusRows, menuCols);
+    m_WinsWin  = newwin(bottomRows, winsCols,   bonusRows, menuCols + rollCols);
 
-    if (!m_BonusWin || !m_MenuWin || !m_RollWin)
+    if (!m_BonusWin || !m_MenuWin || !m_RollWin || !m_WinsWin)
         throw std::runtime_error("NcursesView: failed to create panel windows");
 
     keypad(m_MenuWin, TRUE);
     scrollok(m_MenuWin, FALSE);
     scrollok(m_RollWin, FALSE);
+    scrollok(m_WinsWin, FALSE);
 
     DrawBorder(m_BonusWin, " CRAPS BONUS GAME ");
     wrefresh(m_BonusWin);
@@ -107,6 +109,9 @@ void NcursesView::Init()
     DrawBorder(m_RollWin, " LAST ROLL ");
     wrefresh(m_RollWin);
 
+    DrawBorder(m_WinsWin, " PAYOUTS ");
+    wrefresh(m_WinsWin);
+
     m_Initialized = true;
     SPDLOG_DEBUG("NcursesView initialised ({}x{})", m_TermCols, m_TermRows);
 }
@@ -116,6 +121,7 @@ void NcursesView::Shutdown()
     if (m_BonusWin) { delwin(m_BonusWin); m_BonusWin = nullptr; }
     if (m_MenuWin)  { delwin(m_MenuWin);  m_MenuWin  = nullptr; }
     if (m_RollWin)  { delwin(m_RollWin);  m_RollWin  = nullptr; }
+    if (m_WinsWin)  { delwin(m_WinsWin);  m_WinsWin  = nullptr; }
     endwin();
     m_Initialized = false;
     SPDLOG_DEBUG("NcursesView shut down");
@@ -142,13 +148,18 @@ void NcursesView::ShowLastRoll(int roll)
     DrawRollPanel(roll);
 }
 
+void NcursesView::ShowWins(bool smallWin, bool allWin, bool tallWin)
+{
+    DrawWinsPanel(smallWin, allWin, tallWin);
+}
+
 
 int NcursesView::PromptDiceRoll()
 {
     while (true)
     {
         werase(m_MenuWin);
-        DrawBorder(m_MenuWin, " USER PROMPT ");
+        DrawBorder(m_MenuWin, " INPUT ");
         wrefresh(m_MenuWin);
 
         std::string input = ReadLine("Enter Roll total (2-12, 0 to exit): ", 4);
@@ -258,6 +269,37 @@ void NcursesView::DrawRollPanel(int roll)
     }
 
     wrefresh(m_RollWin);
+}
+
+/**
+ * @brief Render the wins panel showing MAKE 'EM SMALL/ALL/TALL status.
+ */
+void NcursesView::DrawWinsPanel(bool smallWin, bool allWin, bool tallWin)
+{
+    werase(m_WinsWin);
+    DrawBorder(m_WinsWin, " PAYOUTS ");
+
+    auto drawLine = [&](int row, bool win, const char* label)
+    {
+        if (win)
+        {
+            wattron(m_WinsWin, COLOR_PAIR(COLOR_BONUS_NUM_HIT) | A_BOLD);
+            mvwprintw(m_WinsWin, row, 2, "WINNER!!! - %s", label);
+            wattroff(m_WinsWin, COLOR_PAIR(COLOR_BONUS_NUM_HIT) | A_BOLD);
+        }
+        else
+        {
+            wattron(m_WinsWin, COLOR_PAIR(COLOR_BONUS_NUM_UNHIT) | A_DIM);
+            mvwprintw(m_WinsWin, row, 2, "%s", label);
+            wattroff(m_WinsWin, COLOR_PAIR(COLOR_BONUS_NUM_UNHIT) | A_DIM);
+        }
+    };
+
+    drawLine(2, smallWin, "MAKE 'EM SMALL");
+    drawLine(4, allWin,   "MAKE 'EM ALL");
+    drawLine(6, tallWin,  "MAKE 'EM TALL");
+
+    wrefresh(m_WinsWin);
 }
 
 /**

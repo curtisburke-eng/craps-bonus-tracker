@@ -40,6 +40,14 @@ public:
      */
     virtual void ShowLastRoll(int roll) = 0;
 
+    /**
+     * @brief Update the bonus pays panel with current win state.
+     * @param smallWin  True if all of 2-6 have been hit.
+     * @param allWin    True if all 10 bonus numbers have been hit.
+     * @param tallWin   True if all of 8-12 have been hit.
+     */
+    virtual void ShowWins(bool smallWin, bool allWin, bool tallWin) = 0;
+
     // ---- User Input ---- 
 
     /**

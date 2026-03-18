@@ -38,6 +38,7 @@ void CbtPresenter::Run()
 
     m_View.ShowBonusNumbers(m_Model->GetRollMap());
     m_View.ShowLastRoll(0);
+    m_View.ShowWins(m_Model->GetSmallWin(), m_Model->GetAllWin(), m_Model->GetTallWin());
 
     while (m_Running)
     {
@@ -51,6 +52,7 @@ void CbtPresenter::Run()
         m_Model->MarkNumber(static_cast<uint8_t>(roll));
         m_View.ShowLastRoll(roll);
         m_View.ShowBonusNumbers(m_Model->GetRollMap());
+        m_View.ShowWins(m_Model->GetSmallWin(), m_Model->GetAllWin(), m_Model->GetTallWin());
         
     }
 
