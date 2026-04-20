@@ -4,6 +4,9 @@ add_library(cbt-gui STATIC ${CBT_GUI_SOURCES} ${CBT_GUI_HEADERS})
 
 target_include_directories(cbt-gui PUBLIC ${CMAKE_CURRENT_LIST_DIR}/src)
 
+# vcpkg builds the wide-character ncurses variant (libncursesw.a).
+# CURSES_NEED_WIDE tells FindCurses to search for "ncursesw" instead of "ncurses".
+set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
 target_include_directories(cbt-gui PRIVATE ${CURSES_INCLUDE_DIRS})

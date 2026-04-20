@@ -12,6 +12,22 @@
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
       }
+    },
+    {
+      "name": "cross-rpi",
+      "description": "Cross-compile for Raspberry Pi 3B+ (aarch64) running Ubuntu 24.04 Server",
+      "hidden": false,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-rpi",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/cmake/toolchains/aarch64-linux-gnu.cmake",
+        "VCPKG_TARGET_TRIPLET": "arm64-linux-static",
+        "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cmake/triplets",
+        "VCPKG_OVERLAY_PORTS": "${sourceDir}/cmake/ports",
+        "VCPKG_HOST_TRIPLET": "x64-linux",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+      }
     }
   ]
 }
